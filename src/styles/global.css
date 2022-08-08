@@ -13,25 +13,6 @@ body {
     src: url(/src/assets/fonts/RobotoLight.ttf);
 }
 
-@font-face {
-    font-family: 'Mazzard Black';
-    src: url(/src/assets/fonts/MazzardBlack.otf);
-}
-
-@font-face {
-    font-family: 'Mazzard Regular';
-    src: url(/src/assets/fonts/MazzardRegular.otf);
-}
-
-@font-face {
-    font-family: 'Mazzard Light';
-    src: url(/src/assets/fonts/MazzardLight.otf);
-}
-
-@font-face {
-    font-family: 'Mazzard Bold';
-    src: url(/src/assets/fonts/MazzardBold.otf);
-}
 
 @font-face {
     font-family: 'AmpleSoft Regular';
