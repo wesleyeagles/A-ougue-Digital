@@ -4,18 +4,18 @@ import { LoginSide } from "../components/LoginSide";
 
 export function SignUp() {
     return (
-        <Box className="login-gradient w-full h-screen flex justify-center items-center">
-            <Box className="w-[85rem] h-[50rem] flex flex-none bg-white">
+        <Box className="login-gradient w-full md:h-screen py-5 md:py-0 flex justify-center items-center">
+            <Box className="w-[95%] md:w-[60rem] md:rounded-none lg:w-[70rem] xl:w-[85rem] md:h-[90%] flex flex-col md:flex-row flex-none bg-white">
                 <LoginSide />
 
-                <Box className="flex w-full flex-col px-14">
-                    <Box className="mt-[100px]">
+                <Box className="flex w-full flex-col px-3 sm:px-6 py-10 md:py-0 md:px-5 lg:px-10 xl:px-14">
+                    <Box className="md:mt-[40px] lg:mt-[50px] 2xl:mt-[100px]">
                         <h1 className="login-title-red">
                             Cadastre-se
                         </h1>
                     </Box>
 
-                    <Box className="flex items-center gap-5 mt-10">
+                    <Box className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-5 md:gap-2 lg:gap-2 xl:gap-3 2xl:gap-5 mt-10">
                         <Box className="flex items-center gap-2">
                             <Box className="border border-red-600 rounded-full w-[45px] h-[45px] flex justify-center items-center step-number text-[#FF0000]">
                                 1
@@ -26,7 +26,7 @@ export function SignUp() {
                             </Box>
                         </Box>
 
-                        <Box className="bg-[#BFBFBF] h-[1px] mt-[3px] w-[120px]">
+                        <Box className="bg-[#BFBFBF] ml-6 sm:ml-0 h-[40px] sm:h-[1px] mt-[3px] w-[1px] sm:w-[40px] md:w-[10px] lg:w-[40px] xl:w-[80px] 2xl:w-[120px]">
 
                         </Box>
 
@@ -40,7 +40,7 @@ export function SignUp() {
                             </Box>
                         </Box>
 
-                        <Box className="bg-[#BFBFBF] h-[1px] mt-[3px] w-[120px]">
+                        <Box className="bg-[#BFBFBF] ml-6 sm:ml-0 h-[40px] sm:h-[1px] mt-[3px] w-[1px] sm:w-[40px] md:w-[10px] lg:w-[40px] xl:w-[80px] 2xl:w-[120px]">
 
                         </Box>
 
