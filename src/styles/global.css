@@ -13,10 +13,20 @@ body {
     src: url(/src/assets/fonts/RobotoLight.ttf);
 }
 
+@font-face {
+  font-family: 'AmpleSoft Bold';
+  src: url(/src/assets/fonts/AmpleSoftBold.ttf);
+}
+
 
 @font-face {
     font-family: 'AmpleSoft Regular';
     src: url(/src/assets/fonts/AmpleSoftRegular.ttf);
+}
+
+@font-face {
+  font-family: 'AmpleSoft Medium';
+  src: url(/src/assets/fonts/AmpleSoftMedium.ttf);
 }
 
 @font-face {
@@ -30,6 +40,166 @@ body {
     font-size: 1.1rem;
     text-transform: uppercase;
     color: #BA0405;
+}
+
+.login-title {
+
+  font-size: 2.5rem;
+  color: #FFF;
+  font-family: 'AmpleSoft Bold';
+  text-align: center;
+
+}
+
+.login-button button {
+
+  background-color: #FF0000;
+  color: #FFF;
+  font-size: 1.563rem;
+  font-family: 'AmpleSoft Bold';
+  padding: 12px 50px;
+  border-radius: 5px;
+  transition: 0.6s;
+
+
+}
+
+.sign-up-text span {
+  
+  color: #FF0000;
+  font-family: 'AmpleSoft Light';
+  font-size: 1rem;
+
+}
+
+.sign-up-text a {
+
+  color: #FF0000;
+  font-family: 'AmpleSoft Bold';
+  text-decoration: underline;
+}
+
+.login-button button:hover {
+
+  background-color: #b70a07;
+}
+
+.login-title-red {
+
+  font-size: 2.5rem;
+  color: #FF0000;
+  font-family: 'AmpleSoft Bold';
+  text-transform: uppercase;
+
+}
+
+.step-number {
+
+
+  font-size: 1.8rem;
+  font-family: 'AmpleSoft Bold';
+}
+
+.step-text {
+
+  font-family: 'AmpleSoft Medium';
+}
+
+.social-login {
+
+  width: 21.25rem;
+  height: 56px;
+  border-radius: 10px;
+  background-color: #ff0000b1;
+}
+
+.social-login span {
+
+  color: #FFF;
+  font-family: 'AmpleSoft Light';
+  font-size: 1.25rem;
+}
+
+.login-text {
+
+  color: #FFF;
+  font-family: 'AmpleSoft Light';
+}
+
+.login-social-text {
+
+  color: #FFF;
+  font-family: 'AmpleSoft Bold';
+  font-size: 1.313rem;
+}
+
+.input-login-label {
+
+  font-size: 1.25rem;
+  color: #FF0000;
+  font-family: 'AmpleSoft Bold';
+
+}
+
+.input-component input {
+
+  width: 100%;
+  height: 56px;
+  background-color: rgba(220, 220, 220, 0.102);
+  border: #FF0000 solid 1px;
+  border-radius: 10px;
+  padding: 0px 20px;
+  font-family: 'AmpleSoft Bold';
+  font-size: 1.25rem;
+  color: #FF0000;
+  
+}
+
+.input-component select {
+
+  width: 100%;
+  height: 56px;
+  background-color: rgba(220, 220, 220, 0.102);
+  border: #FF0000 solid 1px;
+  border-radius: 10px;
+  padding: 0px 20px;
+  font-family: 'AmpleSoft Bold';
+  font-size: 1.25rem;
+  color: #FF0000;
+  
+}
+
+.toast-animation {
+
+  animation: toastAnima 2s linear forwards;
+  animation-delay: 1s;
+  
+}
+
+@keyframes toastAnima {
+  
+  0% {
+
+    top: 0.75rem;
+  }
+
+  100% {
+
+    top: -50px;
+    background-color: red;  
+  }
+}
+
+
+
+.input-component input:focus {
+
+  outline: #FF0000 solid 1px;
+}
+
+.input-component input::placeholder {
+
+  color: rgba(255, 255, 255, 0.642);
 }
 
 .carousel {
@@ -120,6 +290,11 @@ th {
 
   }
 
+  .login-gradient {
+
+    background-image: linear-gradient(to right bottom, #023047, #023047, #023047, #023047, #023047);
+  }
+
   
 
   .single-image img {
@@ -194,6 +369,21 @@ th {
     }
   }
 
+
+  @media screen and (max-width: 1536px) {
+    
+    html {
+      font-size: 95%;
+    }
+  }
+
+  @media screen and (max-width: 1368px) {
+
+    html {
+      font-size: 90%;
+    }
+  }
+
   @media screen and (max-width: 1368px) {
     
     .single {
@@ -209,6 +399,14 @@ th {
 
       width: 23.5rem;
       height: 150px;
+    }
+
+    .social-login {
+
+      width: 18.25rem;
+      height: 56px;
+      border-radius: 10px;
+      background-color: #ff0000b1;
     }
 
 
@@ -258,6 +456,17 @@ th {
 
       width: 48%;
     }
+
+    .social-login {
+      width: 17.25rem;
+      height: 50px;
+      border-radius: 10px;
+      background-color: #ff0000b1;
+    }
+
+    html {
+      font-size: 80%;
+    }
   }
 
   @media screen and (max-width: 850px) {
@@ -283,6 +492,10 @@ th {
     .single-open {
 
       width: 100%;
+    }
+
+    html {
+      font-size: 90%;
     }
   }
 

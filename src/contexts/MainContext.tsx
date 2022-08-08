@@ -67,6 +67,9 @@ interface IDrawerContextData {
     sidebarOpen: boolean;
     setSideBarOpen: (sidebarOpen: boolean) => void;
     toggleSideBar: () => void; 
+    handleToast: () => void; 
+    setToast: (toast: boolean) => void;
+    toast: boolean;
     keyPressed: (e: any) => void;
     setCost: (cost: string) => void; 
     setPesoTotal: (pesoTotal: number) => void;
@@ -104,6 +107,17 @@ export const MenuContext = ({children}:Props) => {
     const toggleSideBar = () => {
         setSideBarOpen(!sidebarOpen)
     }
+
+    const [toast, setToast] = useState(false)
+
+    const handleToast = () => {
+      setToast(true)
+
+      setTimeout(() => {
+        setToast(false)
+      }, 3000);
+    }
+
 
     const [cost, setCost] = useState("")
     const [labelStyled, setLabelStyled] = useState(false)
@@ -446,6 +460,9 @@ export const MenuContext = ({children}:Props) => {
 
         labelStyledBuco, labelStyledBuco2,
         setLabelStyledBuco, setLabelStyledBuco2,
+
+        toast, setToast, handleToast,
+
         
         }}>
 

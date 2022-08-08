@@ -10,6 +10,7 @@ import { useDrawerContext } from "../contexts/MainContext";
 import { ContainerHome } from "../components/ContainerHome";
 
 import { MdOutlineDoubleArrow } from 'react-icons/md'
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -17,6 +18,20 @@ import { MdOutlineDoubleArrow } from 'react-icons/md'
 
 
 export function Home() {
+
+    const navigate = useNavigate()
+
+    function tokenCheck() {
+      const token = localStorage.getItem('key')
+
+      if (token == null) {
+          navigate('/login')
+      }
+      }
+
+       useEffect(() => {
+        tokenCheck()
+      }, [])
 
     const { 
         
