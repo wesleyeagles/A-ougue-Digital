@@ -403,6 +403,18 @@ th {
       color: #FF0000;
       
     }
+
+    .single {
+
+      width: 32%;
+      height: 180px;
+    }
+
+    .single-open {
+
+      width: 32%;
+      height: 150px;
+    }
   }
 
   @media screen and (max-width: 1368px) {
@@ -410,14 +422,22 @@ th {
     html {
       font-size: 90%;
     }
+
+    
   }
 
   @media screen and (max-width: 1368px) {
     
     .single {
 
-      width: 25rem;
+      width: 32%;
       height: 175px;
+    }
+
+    .single-open {
+
+      width: 49%;
+      height: 140px;
     }
   }
 
