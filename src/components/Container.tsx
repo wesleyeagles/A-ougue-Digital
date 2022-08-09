@@ -9,7 +9,7 @@ export function Container({children}: IContainer) {
 
 
     return (
-        <div className="2xl:max-w-[1536px] mx-auto w-full">
+        <div className="lg:max-w-[1024px] xl:max-w-[1280px] 2xl:max-w-[1536px] mx-auto w-full">
             {children}
         </div>
     )

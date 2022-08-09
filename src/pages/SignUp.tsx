@@ -78,8 +78,8 @@ export function SignUp() {
                             </Box> 
                             </Box>
 
-                            <Box className="flex gap-3">
-                            <Box className="input-login w-[49%] mt-5">
+                            <Box className="flex flex-wrap sm:flex-nowrap gap-3">
+                            <Box className="input-login w-full sm:w-[49%] mt-5">
                                 <Box className="input-login-label">
                                     <span>Endereço</span>
                                 </Box>
@@ -88,7 +88,7 @@ export function SignUp() {
                                     type="adress" required/>
                                 </Box>
                             </Box>
-                            <Box className="input-login w-[16%] mt-5">
+                            <Box className="input-login w-[48%] sm:w-[16%] mt-5">
                                 <Box className="input-login-label">
                                     <span>N°</span>
                                 </Box>
@@ -97,7 +97,7 @@ export function SignUp() {
                                     type="adress" required/>
                                 </Box>
                             </Box>
-                            <Box className="input-login w-[34%] mt-5">
+                            <Box className="input-login w-[48%] sm:w-[34%] mt-5">
                                 <Box className="input-login-label">
                                     <span>Complemento</span>
                                 </Box>
@@ -108,8 +108,8 @@ export function SignUp() {
                             </Box> 
                             </Box>
 
-                            <Box className="flex gap-3">
-                            <Box className="input-login w-[20%] mt-5">
+                            <Box className="flex flex-wrap sm:flex-nowrap gap-3">
+                            <Box className="input-login w-[48%] sm:w-[20%] mt-5">
                                 <Box className="input-login-label">
                                     <span>Estado</span>
                                 </Box>
@@ -124,7 +124,7 @@ export function SignUp() {
                                     </select>
                                 </Box>
                             </Box>
-                            <Box className="input-login w-[35%] mt-5">
+                            <Box className="input-login w-[48%] sm:w-[35%] mt-5">
                                 <Box className="input-login-label">
                                     <span>Cidade</span>
                                 </Box>
@@ -139,7 +139,7 @@ export function SignUp() {
                                     </select>
                                 </Box>
                             </Box>
-                            <Box className="input-login w-[42%] mt-5">
+                            <Box className="input-login w-full sm:w-[42%] mt-5">
                                 <Box className="input-login-label">
                                     <span>CPF</span>
                                 </Box>
@@ -172,7 +172,7 @@ export function SignUp() {
                             </Box>
 
                             <Box className="w-full flex justify-end mt-5">
-                            <Box className="flex flex-row-reverse items-end gap-3">
+                            <Box className="flex flex-col sm:flex-row-reverse items-end gap-3">
                                 <Box className="login-button">
                                     <button type="submit">AVANÇAR</button>
                                 </Box>
