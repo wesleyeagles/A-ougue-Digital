@@ -27,6 +27,8 @@ export function Login() {
         if (email == 'admin@admin.com.br' && pass == 'admin') {
             localStorage.setItem("key", 'admin')
             await navigate('/')
+        } else {
+            navigate('/login')
         }
 
     }
