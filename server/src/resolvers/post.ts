@@ -26,4 +26,22 @@ export class PostResolver {
             await emFork.persistAndFlush(post); // <-- use the fork instead of global
             return post;
     }
+
+    @Mutation (() => Post, {nullable: true})
+    async updatePost(
+        @Arg('id', () => Int) id: number,
+        @Arg('title', () => String, { nullable: true}) title: string,
+        @Ctx() {emFork}: MyContext ) {
+            const post = await emFork.findOne(Post, {id});
+            if (!post) {
+                return null
+            }
+
+            if (typeof title !== 'undefined') {
+                post.title = title
+                await emFork.persistAndFlush(post)
+            }
+            
+            return post;
+    }
 }
