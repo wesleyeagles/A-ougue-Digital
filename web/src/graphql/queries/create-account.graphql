@@ -1,0 +1,7 @@
+mutation CreateAccount($email: String!, $password: String!, $nomeCompleto: String!, $endereco: String!, $bairro: String! $n: String!, $estado: String!, $cpf: String!, $cidade: String!, $complemento: String, $userSlug: String) {
+    createAccount (data: {email: $email, password: $password, nomeCompleto: $nomeCompleto, endereco: $endereco, bairro: $bairro, n: $n, estado: $estado, cpf: $cpf, cidade: $cidade complemento: $complemento, userSlug: $userSlug, token: "false"}) {
+      id
+    }
+    publishAccount (where: {email: $email}, to: PUBLISHED) { id }
+  }
+    

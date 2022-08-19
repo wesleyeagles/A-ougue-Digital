@@ -1,0 +1,6 @@
+query GetUsers {
+  accounts {
+    email
+    password
+  }
+}

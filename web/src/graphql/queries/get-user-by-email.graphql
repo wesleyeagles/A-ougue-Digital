@@ -1,0 +1,14 @@
+query getUserByEmail($email: String!) {
+  account(where: { email: $email }) {
+    nomeCompleto
+    email
+    endereco
+    estado
+    cidade
+    cpf
+    userSlug
+    token
+    n
+    password
+  }
+}
