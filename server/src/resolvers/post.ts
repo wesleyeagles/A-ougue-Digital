@@ -1,6 +1,6 @@
 import { Post } from "../entities/Post";
 import { MyContext } from "src/types";
-import { Ctx, Query, Resolver } from "type-graphql";
+import { Arg, Ctx, Int, Query, Resolver } from "type-graphql";
 
 @Resolver()
 export class PostResolver {
@@ -9,4 +9,11 @@ export class PostResolver {
         @Ctx() {emFork}: MyContext ) {
         return emFork.find(Post, {})
     }
+
+    @Query (() => Post, {nullable: true})
+    post(
+        @Arg('id', () => Int) id: number,
+        @Ctx() {emFork}: MyContext ) {
+            return emFork.findOne(Post, { id })
+        }
 }
