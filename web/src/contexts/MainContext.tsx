@@ -1,7 +1,4 @@
-import { colorChannel } from '@mui/system';
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { useGetUserByEmailQuery } from '../graphql/generated';
+import { createContext, useCallback, useContext, useState } from 'react'
 
 /* Context para o toggle do menu lateral nas versões mobile */
 
@@ -86,7 +83,6 @@ interface IDrawerContextData {
 
 const DrawerContext = createContext ({} as IDrawerContextData)
 
-const responsive = window.matchMedia('(max-width: 1024px)');
 
 export const useDrawerContext = () => {
     return useContext(DrawerContext);
