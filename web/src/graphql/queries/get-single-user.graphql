@@ -1,7 +1,0 @@
-query GetSingleUser ($email: String!){
-    account(where: {email: $email}) {
-        email
-        password
-        userSlug
-    }
-}

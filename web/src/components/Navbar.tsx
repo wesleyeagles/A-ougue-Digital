@@ -1,7 +1,6 @@
 import { Box } from "@mui/material";
 import { Container } from '../components/Container'
 import { Link } from "react-router-dom";
-import { useDrawerContext } from "../contexts/MainContext";
 
 
 export function Navbar() {

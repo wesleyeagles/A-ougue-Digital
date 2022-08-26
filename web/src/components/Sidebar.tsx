@@ -1,7 +1,6 @@
 import { Box } from "@mui/material";
 import { useDrawerContext } from "../contexts/MainContext";
 import InputMask from 'react-input-mask';
-import { useState } from "react";
 
 export function Sidebar() {
 

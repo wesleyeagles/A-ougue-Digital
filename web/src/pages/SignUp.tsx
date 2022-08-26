@@ -1,78 +1,141 @@
-import { Box } from "@mui/material";
-import { FormEvent, useRef, useState } from "react";
-import ReactInputMask from "react-input-mask";
-import { Link } from "react-router-dom";
+import { Button, HStack, Input, InputGroup, InputLeftElement, InputRightElement, Skeleton, Stack, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import { useFormik } from "formik";
+import { AiOutlineUser } from "react-icons/ai";
+import { FiMail } from "react-icons/fi";
 import { LoginSide } from "../components/LoginSide";
-import { useCreateAccountMutation } from "../graphql/generated";
+import { Select } from '@chakra-ui/react'
+import { useEffect, useRef, useState } from "react";
+import { useEstados } from "../assets/hooks/useStates";
+import { useCidades } from '../assets/hooks/useCities'
+import { MdPassword } from "react-icons/md";
+import { Link, useNavigate } from "react-router-dom";
+import { useRegisterMutationMutation } from "../generated/graphql";
+
+
+
+
+type Errors = {
+    name?: string
+    email?: string
+    password?: string
+    confirmpassword?: string
+    state?: string
+    city?: string
+    adress?: string
+    number?: string
+}
+
+
 
 export function SignUp() {
 
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [adress, setAdress] = useState('')
-    const [n, setN] = useState('')
-    const [state, setState] = useState('')
-    const [city, setCity] = useState('')
-    const [district, setDistrict] = useState('')
-    const [cpf, setCpf] = useState('')
-    const [userCep, setCep] = useState('')
-    const [password, setPassword] = useState('')
-    const [userSlug, setUserSlug] = useState('')
+   
 
-    const cepInput = useRef<HTMLInputElement>(null)
+    const navigate = useNavigate()
 
-    
-    const checkCEP = (e: any) => {
+    const {estados} = useEstados()
+    const [selectedState, setSelectedState] = useState('')
+    const {cidades, loading: loadingCidades} = useCidades({ uf: selectedState})
+    const [show, setShow] = useState(false)
+    const handleClick = () => setShow(!show)
+
+    const handleStateChange = (e: any) => {
+        setSelectedState(e.target.value)
+
+        console.log()
+
+    }
+
+
+
+    const validate = (values: { name: string; email: string; password: string; confirmpassword: string; state: string; city: string; adress: string; number: string; complement: string; }) => {
+        const errors:Errors = {};
+
+        if (!values.name) {
+            errors.name = 'Campo obrigatório';
+        }
+      
+        if (!values.email) {
+          errors.email = 'Campo obrigatório';
+        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+          errors.email = 'Email inválido';
+        }
+
+        if (!values.password) {
+            errors.password = 'Campo obrigatório';
+        }
+
+        if (!values.confirmpassword) {
+            errors.confirmpassword = 'Campo obrigatório';
+        }
+        
+        if (!values.state) {
+            errors.state = 'Campo obrigatório';
+        }
+
+        if (!values.city) {
+            errors.city = 'Campo obrigatório';
+        }
+
+        if (!values.adress) {
+            errors.adress = 'Campo obrigatório';
+        }
+
+        if (!values.number) {
+            errors.number = 'Campo obrigatório';
+        }
+
+      
+        return errors;
+      };
+
+    const formik = useFormik({
+        initialValues: {
+          name: '',
+          email: '',
+          password: '',
+          confirmpassword:'', 
+          state:'',
+          city:'',
+          adress:'',
+          number: '',
+          complement:''
+        },
+        validate,
+        onSubmit: values => {
+          alert(JSON.stringify(values, null, 2));
+        },
+      });
+
+      const estadoRef = useRef<any>(null)
+      const cidadeRef = useRef<any>(null)
+
+      const [createUser, { data, loading }] = useRegisterMutationMutation()
+
+      function handleCreateUser(e: any) {
         e.preventDefault()
 
-        const cep = cepInput?.current?.value;
-        console.log(typeof cep)
-        console.log(cep);
-        fetch(`https://viacep.com.br/ws/${cep}/json/`).then(res => res.json()).then(data => {
-          console.log(data);
-          // register({ name: 'address', value: data.logradouro });
-          setAdress(data.logradouro);
-          setState(data.uf)
-          setCity(data.localidade)
-          setDistrict(data.bairro)
-        });
-      }
-
-    const [ createAccount ] = useCreateAccountMutation()
-
-    const handleAccountCreate = (e: FormEvent) => {
-        e.preventDefault()
-
-        createAccount({
+        createUser({
             variables: {
-                email: email,
-                password: password,
-                nomeCompleto: name,
-                endereco: adress,
-                n: n,
-                estado: state,
-                cpf: cpf,
-                cidade: city,
-                bairro: district,
-                userSlug: userSlug,
+                name: formik.values.name,
+                email: formik.values.email,
+                password: formik.values.password,
+                confirmpassword: formik.values.confirmpassword,
+                state: estadoRef?.current?.value,
+                city: cidadeRef?.current?.value,
+                adress: formik.values.adress,
+                number: String(formik.values.number),
             }
         })
-    }
 
-    
-
-
-    const handleSetName = (e: any) => {
-        setName(e.target.value)
-
-        setUserSlug(e.target.value.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g,''))
-    }
-
+        console.log(data)
+      }
 
 
     return (
         <Box className="login-gradient w-full md:h-screen py-5 md:py-0 flex justify-center items-center">
-            <Box className="w-[95%] md:w-[60rem] md:rounded-none lg:w-[70rem] xl:w-[85rem] md:h-[90%] flex flex-col md:flex-row flex-none bg-white">
+            <Box className="w-[95%] md:w-[60rem] md:rounded-none lg:w-[44rem] xl:w-[55rem] md:h-[80%] flex flex-col md:flex-col flex-none bg-white" borderRadius={2}>
                 <LoginSide />
 
                 <Box className="flex w-full flex-col px-3 sm:px-6 py-10 md:py-0 md:px-5 lg:px-10 xl:px-14">
@@ -82,208 +145,134 @@ export function SignUp() {
                         </h1>
                     </Box>
 
-                    <Box className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-5 md:gap-2 lg:gap-2 xl:gap-3 2xl:gap-5 mt-10">
-                        <Box className="flex items-center gap-2">
-                            <Box className="border border-red-600 rounded-full w-[45px] h-[45px] flex justify-center items-center step-number text-[#FF0000]">
-                                1
-                            </Box>
-
-                            <Box className="step-text text-[#FF0000]">
-                                Identificação
-                            </Box>
-                        </Box>
-
-                        <Box className="bg-[#BFBFBF] ml-6 sm:ml-0 h-[40px] sm:h-[1px] mt-[3px] w-[1px] sm:w-[40px] md:w-[10px] lg:w-[40px] xl:w-[80px] 2xl:w-[120px]">
-
-                        </Box>
-
-                        <Box className="flex items-center gap-2">
-                            <Box className="border border-[#BFBFBF] rounded-full w-[45px] h-[45px] flex justify-center items-center step-number text-[#BFBFBF]">
-                                2
-                            </Box>
-
-                            <Box className="step-text text-[#BFBFBF]">
-                                Pagamento
-                            </Box>
-                        </Box>
-
-                        <Box className="bg-[#BFBFBF] ml-6 sm:ml-0 h-[40px] sm:h-[1px] mt-[3px] w-[1px] sm:w-[40px] md:w-[10px] lg:w-[40px] xl:w-[80px] 2xl:w-[120px]">
-
-                        </Box>
-
-                        <Box className="flex items-center gap-2">
-                            <Box className="border border-[#BFBFBF] rounded-full w-[45px] h-[45px] flex justify-center items-center step-number text-[#BFBFBF]">
-                                3
-                            </Box>
-
-                            <Box className="step-text text-[#BFBFBF]">
-                                Compra realizada
-                            </Box>
-                        </Box>
-                    </Box>
+          
 
                     <Box>
-                        <form action="">
-                            <Box className="flex gap-3">
-                            <Box className="input-login w-[49%] mt-5">
-                                <Box className="input-login-label flex justify-between">
-                                    <span>Nome completo</span>
-                                </Box>
-                                <input hidden value={userSlug} type="text" />
-                                <Box className="input-component w-full">
-                                    <input
-                                    value={name}
-                                    onChange={handleSetName}
-                                    type="text" required/>
-                                </Box>
+                        <form onSubmit={formik.handleSubmit} >
+                            <Box display='flex' justifyContent='space-between'>
+                            {formik.touched.name && formik.errors.name? <div className={`text-red-600 w-[49.5%]`}>{formik.errors.name}</div> : null}
+                            {formik.touched.email && formik.errors.email? <div className="text-red-600 text-left w-[49.5%]">{formik.errors.email}</div> : null}
                             </Box>
-                            <Box className="input-login w-[49%] mt-5">
-                                <Box className="input-login-label">
-                                    <span>Seu email</span>
-                                </Box>
-                                <Box className="input-component w-full">
-                                    <input
-                                    value={email}
-                                    onChange={e => setEmail(e.target.value)}
-                                    type="email" required/>
-                                </Box>
-                            </Box> 
-                            </Box>
-
-                            <Box className="flex flex-wrap sm:flex-nowrap gap-3">
-                            <Box className="input-login w-[48%] sm:w-[38%] mt-5">
-                                <Box className="input-login-label">
-                                    <span>CEP</span>
-                                </Box>
-                                <Box className="input-component w-full flex gap-3">
-                                    <input
-                                    ref={cepInput}
-                                    onChange={checkCEP}
-                                    type="text" required/>
-                                    <Box className="check-cep-button">
-                                    <button onClick={checkCEP}>
-                                    Buscar
-                                    </button>
-                                    </Box>
-                                </Box>
-                            </Box> 
-                            <Box className="input-login w-full sm:w-[40%] mt-5">
-                                <Box className="input-login-label">
-                                    <span>Endereço</span>
-                                </Box>
-                                <Box className="input-component w-full">
-                                    <input
-                                    disabled
-                                    value={adress}
-                                    onChange={e => setAdress(e.target.value)}
-                                    type="adress" required/>
-                                </Box>
-                            </Box>
-                            <Box className="input-login w-[48%] sm:w-[19%] mt-5">
-                                <Box className="input-login-label">
-                                    <span>N°</span>
-                                </Box>
-                                <Box className="input-component w-full">
-                                    <input
-                                    value={n}
-                                    onChange={e => setN(e.target.value)}
-                                    type="adress" required/>
-                                </Box>
-                            </Box>
-                            
-                            </Box>
-
-                            <Box className="flex flex-wrap sm:flex-nowrap gap-3">
-                            <Box className="input-login w-[48%] sm:w-[10%] mt-5">
-                                <Box className="input-login-label">
-                                    <span>Estado</span>
-                                </Box>
-                                <Box className="input-component w-full">
-                                    <input
-                                        disabled
-                                        value={state}
-                                        onChange={e => setState(e.target.value)}
-                                        type='text'
+                            <Stack>
+                                <HStack>
+                                <InputGroup>
+                                    <InputLeftElement h='45px' children={<AiOutlineUser color='gray' size={20}/>}/>
+                                    <Input
+                                    id="name"
+                                    name="name"
+                                    type="name"
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.name}
+                                    h='45px' placeholder="Nome Completo"/>
+                                </InputGroup>
+                                
+                                <InputGroup marginTop={0}> 
+                                    <InputLeftElement h='45px' pointerEvents='none' children={<FiMail color='gray' size={20}/>} />
+                                    <Input h='45px' placeholder="Email"
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.email}
                                     />
-                                </Box>
-                            </Box>
-                            <Box className="input-login w-[48%] sm:w-[35%] mt-5">
-                                <Box className="input-login-label">
-                                    <span>Cidade</span>
-                                </Box>
-                                <Box className="input-component w-full">
-                                    <input
-                                        disabled
-                                        value={city}
-                                        onChange={e => setCity(e.target.value)}
-                                        type='text'
-                                    />
-                                </Box>
-                            </Box>
-                            <Box className="input-login w-[48%] sm:w-[35%] mt-5">
-                                <Box className="input-login-label">
-                                    <span>Bairro</span>
-                                </Box>
-                                <Box className="input-component w-full">
-                                    <input
-                                        disabled
-                                        value={district}
-                                        onChange={e => setDistrict(e.target.value)}
-                                        type='text'
-                                    />
-                                </Box>
-                            </Box>
-                            <Box className="input-login w-full sm:w-[42%] mt-5">
-                                <Box className="input-login-label">
-                                    <span>CPF</span>
-                                </Box>
-                                <Box className="input-component w-full">
-                                    <ReactInputMask
-                                    maskChar={null}
-                                    mask='999.999.999-99'
-                                    value={cpf}
-                                    onChange={e => setCpf(e.target.value)}
-                                    type="tel" required/>
-                                </Box>
-                            </Box> 
-                            </Box>
+                                </InputGroup>
+                                </HStack>
 
-                            <Box className="flex gap-3">
-                            <Box className="input-login w-[49%] mt-5">
-                                <Box className="input-login-label">
-                                    <span>Senha</span>
-                                </Box>
-                                <Box className="input-component w-full">
-                                    <input
-                                    value={password}
-                                    onChange={e => setPassword(e.target.value)}
-                                    type="password" required/>
-                                </Box>
-                            </Box>
-                            <Box className="input-login w-[49%] mt-5">
-                                <Box className="input-login-label">
-                                    <span>Confirmar senha</span>
-                                </Box>
-                                <Box className="input-component w-full">
-                                    <input
-                                    type="password" required/>
-                                </Box>
-                            </Box> 
-                            </Box>
+                   
 
-                            <Box className="w-full flex justify-end mt-5">
-                            <Box className="flex flex-col sm:flex-row-reverse items-end gap-3">
-                                <Box className="login-button">
-                                    <button onClick={handleAccountCreate} type="submit">AVANÇAR</button>
-                                </Box>
-                                <Box className="sign-up-text flex gap-1">
-                                   <span>Já possui conta?</span>
-                                   <Link to='/login'>Faça o login</Link> 
-                                </Box>
+                            <Box display='flex' justifyContent='space-between'>
                             </Box>
+                            <HStack>
+                                <InputGroup>
+                                    <Select ref={estadoRef} h='45px' w={{md: '214px', lg: '277px', xl: '322px', '2xl': '380px'}} onChange={handleStateChange} placeholder='Selecione seu estado'>
+                                        {estados.map(estado => 
+                                        <option value={estado.sigla}>{estado.nome}</option>
+                                        )}
+                                    </Select>
+                                </InputGroup>
+                                <InputGroup marginTop={0}> 
+                                    
+                                    <Skeleton isLoaded={!loadingCidades}>
+                                    <Select ref={cidadeRef} h='45px' w={{md: '214px', lg: '277px', xl: '318px', '2xl': '380px'}} placeholder='Selecione sua cidade'>
+                                        {cidades.map(cidade => 
+                                        <option value={cidade.nome}>{cidade.nome}</option>
+                                        )}
+                                    </Select>
+                                    </Skeleton>
+                                </InputGroup>
+                            </HStack>
+
+                            <Box display='flex' justifyContent='space-between'>
+                            {formik.touched.adress && formik.errors.adress? <div className="text-red-600 w-[35.5%]">{formik.errors.adress}</div> : null}
+                            {formik.touched.number && formik.errors.number? <div className="text-red-600 text-left w-[57.5%]">{formik.errors.number}</div> : null}
                             </Box>
+                            <HStack>
+                                <InputGroup w={{base: '320px'}}>
+                                    <Input w={{base: '320px'}} h='45px' placeholder="Endereço"
+                                    id="adress"
+                                    name="adress"
+                                    type="adress"
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.adress}
+                                    />
+                                </InputGroup>
+                                <InputGroup w={{base: '120px'}}>
+                                    <Input w={{base: '120px'}} h='45px' placeholder="Número"
+                                    id="number"
+                                    name="number"
+                                    type="number"
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.number}
+                                    />
+                                </InputGroup>
+                                <InputGroup marginTop={0}> 
+                                    <Input h='45px' placeholder="Complemento"/>
+                                </InputGroup>
+                            </HStack>
+
+                            <Box display='flex' justifyContent='space-between'>
+                            {formik.touched.password && formik.errors.password? <div className="text-red-600 w-[49.5%]">{formik.errors.password}</div> : null}
+                            {formik.touched.confirmpassword && formik.errors.confirmpassword? <div className="text-red-600 text-left w-[49.5%]">{formik.errors.confirmpassword}</div> : null}
+                            </Box>
+                            <HStack>
+                                <InputGroup>
+                                <InputLeftElement h='45px' pointerEvents='none' color='gray.300' fontSize='1.2em' children={<MdPassword color='gray'/>} />
+                                    <Input type={show ? 'text' : 'password'} h='45px' placeholder="Senha"
+                                    id="password"
+                                    name="password"
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.password}
+                                    />
+                                    <InputRightElement h='45px' width='4.5rem' marginRight={2}>
+                                    <Button h='1.75rem' size='sm' onClick={handleClick}>
+                                    {show ? 'Esconder' : 'Mostrar'}
+                                    </Button>
+                                    </InputRightElement>
+                                </InputGroup>
+                                <InputGroup marginTop={0}>
+                                    <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={<MdPassword color='gray'/>} /> 
+                                    <Input type={show ? 'text' : 'password'} h='45px' placeholder="Confirmar senha"
+                                    id="confirmpassword"
+                                    name="confirmpassword"
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.confirmpassword}
+                                    />
+                                </InputGroup>
+                            </HStack>
+                            <Button onClick={handleCreateUser} type="submit" colorScheme='red' size='lg'>Enviar</Button>
+                            </Stack>
                         </form>
+                        <Text marginTop={3} fontSize='lg'>Já é cadastrado? <Text color='red' _hover={{ color: 'black' }} transition='0.6s' as='u'><Link to='/login'>Faça login</Link></Text></Text>
                     </Box>
+          
+                
+
                 </Box>
             </Box>
         </Box>

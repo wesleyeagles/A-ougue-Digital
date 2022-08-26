@@ -1,53 +1,20 @@
-import { Typography, Box, useTheme, Input } from "@mui/material";
-import { useRef, useState, FormEvent, useEffect, SetStateAction } from "react";
+import { Box } from "@mui/material";
+import { useState, useEffect } from "react";
 import { Footer } from "../components/Footer";
 import { Navbar } from "../components/Navbar";
 import { Sidebar } from "../components/Sidebar";
 import InputMask from 'react-input-mask';
-
-import {IoIosArrowForward} from 'react-icons/io'
 import { useDrawerContext } from "../contexts/MainContext";
 import { ContainerHome } from "../components/ContainerHome";
 
 import { MdOutlineDoubleArrow } from 'react-icons/md'
 import { useNavigate } from "react-router-dom";
-import { useGetUserByEmailQuery } from "../graphql/generated";
-
-
-interface LoginProps {
-
-  email: string ;
-  password: string;
-}
 
 
 
-export function Home(props: LoginProps) {
-
-    const navigate = useNavigate()
-    const [accountEmail, setAccountEmail] = useState<string>('')
-
-    useEffect(() => {
-      setAccountEmail(localStorage.getItem('accountEmail') || '')
-    }, [])
-
-    const { data } = useGetUserByEmailQuery(
-
-      {
-          variables: {
-              email: accountEmail
-          }
-      }
-  )
-
-      if (data) {
-        if (data.account?.token === 'false') {
-          navigate(`/user/${data.account?.userSlug}`)
-        }
-      }
+export function Home() {
 
        
-
     const { 
         
     setWeight, setWeight2, setWeight3, setWeight4, setWeight5, setWeight6, setWeight7, setWeight8, setWeight9, setWeight10, setWeight11, setWeight12, setWeight13, setWeight14, setWeight15, setWeight16, setWeight17, setWeight18, setWeight19,
@@ -121,55 +88,6 @@ export function Home(props: LoginProps) {
 
     } = useDrawerContext()
 
-    const carousel = useRef<any>()
-
-    const [estado, setEstado] = useState(1)
-
-    
-
-    const prevSlide = (e: { preventDefault: () => void; }) => {
-        e.preventDefault()
-
-        carousel.current.scrollLeft -= 370
-
-        if (estado == 1) {
-            setEstado(1)
-        } else {
-            setEstado(estado-1)
-        }
-
-    }
-
-
-
-    const nextSlide = (e: { preventDefault: () => void; }) => {
-        e.preventDefault()
-
-        carousel.current.scrollLeft += 370
-
-        if (estado == 19) {
-            setEstado(19)
-        } else {
-            setEstado(estado+1)
-        }
-
-        
-
-      
-
-       
-    }
-
-
-    
-
-
-    
-    
-
-    const calcTotal = () => {
-        setPesoTotal(totalWeight)
-    }
 
     const weightPressed = (e: any) => {
 

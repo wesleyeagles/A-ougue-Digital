@@ -1,34 +1,12 @@
 import {Box, Divider, Drawer} from "@mui/material"
-import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { useDrawerContext } from "../contexts/MainContext"
-import { useGetUserByEmailQuery } from "../graphql/generated"
 
 import {FiShoppingCart} from 'react-icons/fi'
 
 export function DrawerMenu() {
 
-    const { isDrawerOpen, setIsDrawerOpen, removeToken } = useDrawerContext()
-
-    const [accountEmail, setAccountEmail] = useState<string>('')
-
-    const [tokenPay, setTokenPay] = useState(false)
-
-    useEffect(() => {
-      setAccountEmail(localStorage.getItem('accountEmail') || '')
-    }, [])
-
-    const { data } = useGetUserByEmailQuery(
-
-      {
-          variables: {
-              email: accountEmail
-          }
-      }
-  )
-
-      
-
+    const { isDrawerOpen, setIsDrawerOpen } = useDrawerContext()
 
     return (
         <Drawer anchor='right' open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)}>
@@ -41,8 +19,6 @@ export function DrawerMenu() {
                     </Box>
 
                     <Box className="flex flex-col w-[60%]">
-                        <strong>{data?.account?.nomeCompleto}</strong>
-                        <span className="text-[12px]">{data?.account?.email}</span>
                     </Box>
                 </Box>
 
@@ -69,7 +45,7 @@ export function DrawerMenu() {
                     <Link className="block mb-3" to=''>
                         Ajuda
                     </Link>
-                    <Link onClick={removeToken} className="block" to='/login'>
+                    <Link className="block" to='/login'>
                         Sair
                     </Link>
                 </Box>
@@ -77,7 +53,7 @@ export function DrawerMenu() {
                 <Divider/>
 
                 
-                <Box className={`flex h-full items-end ${tokenPay? 'hidden' : 'flex'}`}>
+                <Box className={`flex h-full items-end`}>
                     <Box className="w-full h-[40px] flex justify-center items-center bg-table">
                         <Link className="uppercase font-extrabold amplesoft-medium flex gap-2 items-center" to=''>
                         <FiShoppingCart size={20}/> Fazer assinatura 

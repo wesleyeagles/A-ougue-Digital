@@ -2,27 +2,11 @@ import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDrawerContext } from "../contexts/MainContext";
-import { useGetUserByEmailQuery } from "../graphql/generated";
 import { Container } from "./Container";
 
 export function UserHeader() {
 
     const { setIsDrawerOpen } = useDrawerContext()
-
-    const [accountEmail, setAccountEmail] = useState<string>('')
-
-    useEffect(() => {
-      setAccountEmail(localStorage.getItem('accountEmail') || '')
-    }, [])
-
-    const { data } = useGetUserByEmailQuery(
-
-      {
-          variables: {
-              email: accountEmail
-          }
-      }
-  )
 
 
     return (

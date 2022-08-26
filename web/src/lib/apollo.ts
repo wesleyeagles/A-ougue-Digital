@@ -7,6 +7,7 @@ const errorLink = onError(({ graphQLErrors }) => {
 
 export const client = new ApolloClient({
     uri: import.meta.env.VITE_API_URL,
+    credentials: "include",
     headers: {
         'Authorization': `Bearer ${import.meta.env.VITE_API_ACESS_TOKEN}`
     },

@@ -1,0 +1,3 @@
+mutation RegisterMutation($name: String!, $email: String!, $password: String!, $confirmpassword: String!, $state: String!, $city: String!, $adress: String!, $number: String!) {
+        register(name: $name, email: $email, password: $password, confirmpassword: $confirmpassword, state: $state, city: $city, adress:$adress, number: $number)
+    }
