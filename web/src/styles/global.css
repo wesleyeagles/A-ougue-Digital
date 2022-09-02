@@ -36,12 +36,12 @@ body {
 
 .amplesoft-bold {
 
-  font-family: 'AmpleSoft Bold';
+  font-family: 'AmpleSoft Bold'!important;
 }
 
 .amplesoft-medium {
 
-  font-family: 'AmpleSoft Medium';
+  font-family: 'AmpleSoft Medium'!important;
 }
 
 .cut-name {

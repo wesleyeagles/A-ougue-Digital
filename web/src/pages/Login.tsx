@@ -5,15 +5,15 @@ import { useFormik } from 'formik';
 
 import { Toast } from "../components/Toast";
 import { Link, useNavigate } from 'react-router-dom'
-import { Button, Checkbox, Input, InputGroup, InputLeftElement, InputRightElement, Stack, WrapItem, Text, FormControl } from "@chakra-ui/react";
+import { Button, Checkbox, Input, InputGroup, InputLeftElement, InputRightElement, Stack, WrapItem, Text, FormControl, Skeleton } from "@chakra-ui/react";
 import { FiMail } from "react-icons/fi";
 import { MdPassword } from "react-icons/md";
 import { useState } from "react";
-import { useLoginUserMutation } from "../generated/graphql";
+import { useLoginMutation } from "../generated/graphql";
 
 
 type Errors = {
-    email?: string
+    usernameOrEmail?: string
     password?: string
 }
 
@@ -25,17 +25,14 @@ export function Login() {
 
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [formErrors, setFormErrors] = useState(false)
 
-    const validate = (values: { email: string; password: string; }) => {
+    const validate = (values: { usernameOrEmail: string; password: string; }) => {
         const errors:Errors = {};
       
-        if (!values.email) {
-          errors.email = 'Campo obrigatório';
-        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-          errors.email = 'Email inválido';
-        }
+        if (!values.usernameOrEmail) {
+          errors.usernameOrEmail = 'Campo obrigatório';
+        } 
 
         if (!values.password) {
             errors.password = 'Campo obrigatório';
@@ -45,22 +42,29 @@ export function Login() {
       };
       
 
-    const [loginUser, { data, loading }] = useLoginUserMutation()
+    const [loginUser, {loading, error}] = useLoginMutation()
 
     async function logIn() {
         const data = await loginUser({
             variables: {
-                email: formik.values.email,
+                usernameOrEmail: formik.values.usernameOrEmail,
                 password: formik.values.password,
-            }
+            },
+            refetchQueries: "all"
           })
 
-          console.log(data.data?.login)
+          
 
-          if (data.data?.login != null) {
+          if (data.data?.login.user != null) {
             console.log("Usuário Existe")
+            navigate('/user')
           } else {
             console.log("Usuário incorreto")
+            setFormErrors(true)
+
+            setTimeout(() => {
+                setFormErrors(false)
+            }, 3000)
           }
           
       }
@@ -69,12 +73,28 @@ export function Login() {
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-          email: 'crafael.wesley@gmail.com',
-          password: 'eAgles2709$',
+          usernameOrEmail: '',
+          password: '',
         },
         validate,
-        onSubmit: (values) => {
-            logIn()
+        onSubmit: async (values, { setErrors }) =>{
+            const response = await loginUser({
+                variables: values,
+                refetchQueries: "all"
+
+            });
+
+            if (response.data?.login.user != null) {
+                navigate('/user')
+            } else {
+                setFormErrors(true)
+
+                setTimeout(() => {
+                    setFormErrors(false)
+                }, 3000)
+            }
+
+
         },
 
       });
@@ -100,7 +120,8 @@ export function Login() {
                     <Box className="w-full px-5 sm:px-20 md:px-5 lg:px-12 xl:px-24">
                         <form onSubmit={formik.handleSubmit} className="w-full">
                         <Stack spacing={2}>
-                            {formik.touched.email && formik.errors.email? <div className="text-red-600">{formik.errors.email}</div> : null}
+                            {formErrors? <div className="text-red-600">Email ou senha inválidos</div> : null}
+                            {formik.touched.usernameOrEmail && formik.errors.usernameOrEmail? <div className="text-red-600">{formik.errors.usernameOrEmail}</div> : null}
                             <FormControl>
                             <InputGroup>
                                 <InputLeftElement
@@ -108,13 +129,13 @@ export function Login() {
                                 children={<FiMail color='gray' />}
                                 />
                                 <Input 
-                                id="email"
-                                name="email"
-                                type="email"
-                                placeholder='Email'
+                                id="usernameOrEmail"
+                                name="usernameOrEmail"
+                                type="text"
+                                placeholder='Usuário ou Email'
                                 onBlur={formik.handleBlur}
                                 onChange={formik.handleChange}
-                                value={formik.values.email}
+                                value={formik.values.usernameOrEmail}
                                 />
                                 
                             </InputGroup>
@@ -148,7 +169,9 @@ export function Login() {
                             <Checkbox size='md' colorScheme='red' defaultChecked>
                                 Lembrar senha?
                             </Checkbox>
-                            <Button type="submit" colorScheme='red' size='lg'>Entrar</Button>
+                            <Skeleton isLoaded={!loading}>
+                            <Button w='100%' type="submit" colorScheme='red' size='lg'>Entrar</Button>
+                            </Skeleton>
                             </Stack>
 
                             <WrapItem marginTop={5}>

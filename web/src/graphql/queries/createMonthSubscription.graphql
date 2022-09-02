@@ -1,0 +1,7 @@
+mutation MonthSubscription ($userId: Float!){
+  createMonthSubscription(userId: $userId) {
+    user {
+      name
+    }
+  }
+}

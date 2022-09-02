@@ -1,11 +1,14 @@
-mutation LoginUser($email: String!, $password: String!) {
-  login(email: $email, password: $password) {
-    id
-    name
-    email
-    state
-    city
-    adress
-    number
+mutation Login ($usernameOrEmail: String!, $password: String!) {
+  login(usernameOrEmail: $usernameOrEmail, password: $password) {
+    user {
+      id
+      username
+      name
+      email
+      state
+      city
+      adress
+      type
+    }
   }
 }

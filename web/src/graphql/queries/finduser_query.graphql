@@ -1,0 +1,11 @@
+query FindUser {
+    me {
+        id
+        name
+        email
+        state
+        city
+        adress
+        type
+    }
+}
